@@ -3,10 +3,10 @@
 
 ## Librerie disponibili
 - *Colori*: Cambia i colori del terminale;
-- *Casualità*: Genera numeri casuali. 
+- *Casualità*: Genera numeri casuali;
+- *Screen*: Funzioni utili per gestire il terminale.
 
 ## Librerie in sviluppo
-- Screen;
 - Timer.
 
 ## Nuove idee/proposte
