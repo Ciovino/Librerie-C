@@ -1,5 +1,5 @@
-#ifndef RANDOM_H
-#define RANDOM_H
+#ifndef RANDOM_H_INCLUDED
+#define RANDOM_H_INCLUDED
 
 /*
     Questo si dovrebbe capire da solo, ma nel dubbio lo rispiego.
@@ -9,4 +9,4 @@
 int RandomInt(int, int);
 int RandomIntFrom0ToMax(int);
 
-#endif
+#endif // RANDOM_H_INCLUDED

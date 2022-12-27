@@ -1,5 +1,5 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef SCREEN_H_INCLUDED
+#define SCREEN_H_INCLUDED
 
 /*
     Poesia dello Screen:
@@ -13,4 +13,4 @@ void ClearScreen(void);
 void SetCursorToHome(void);
 void ClearAndHome(void);
 
-#endif
+#endif // SCREEN_H_INCLUDED
