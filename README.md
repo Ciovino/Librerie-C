@@ -1,5 +1,5 @@
 # Librerie C
-*Daje*, me salvo tutte le libreie che mi creo nel corso della mia vita (così almeno non le devo cercare in tutto il computer).
+*Daje*, me salvo tutte le librerie che mi creo nel corso della mia vita (così almeno non le devo cercare in tutto il computer).
 
 ## Librerie disponibili
 - *Colori*: Cambia i colori del terminale;
@@ -10,4 +10,4 @@
 ## Librerie in sviluppo
 
 ## Nuove idee/proposte
-**Nessuna idea** (non so se sia un bene o un male).
+1. Scrivere degli esempi.
