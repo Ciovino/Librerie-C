@@ -8,7 +8,6 @@
 - *Timer*: Crea e usa vari timer.
 
 ## Librerie in sviluppo
-- **Casualità**: aggiungere un'esempio;
 - **Screen**: aggiungere un'esempio;
 - **Timer**: aggiungere un'esempio.
 

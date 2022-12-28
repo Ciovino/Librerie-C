@@ -2,7 +2,7 @@
 
 #include "Colori.h"
 
-int main()
+void main()
 {
     printf("Colore Normale\n");
     Textcolor(COL_GREEN);
