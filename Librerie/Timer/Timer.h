@@ -15,11 +15,11 @@
 typedef struct timer *Timer;
 
 Timer NewTimer(void);
-int SetTimerReady(Timer, int, int, int);
-void ShowTimerStatus(Timer);
-int StartTimer(Timer);
-void FreeTimer(Timer);
+int SetTimerReady(Timer T, int Ore, int Minuti, int Secondi);
+void ShowTimerStatus(Timer T);
+int StartTimer(Timer T);
+void FreeTimer(Timer T);
 
-void delay(int);
+void delay(int MilliSeconds);
 
 #endif // TIMER_H_INCLUDED

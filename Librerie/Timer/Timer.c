@@ -62,9 +62,8 @@ Timer NewTimer()
  * @param Minuti
  * @param Secondi
  *
- * @return 0 se il Timer è Null, -1 se i valori passati sono negativi,
- *         2 se i valori passati devono essere convertiti (es: Minuti == 60 =>
- *         Ore++), 1 altrimenti
+ * @return 0 se il Timer è Null, -1 se i valori passati sono negativi, 2 se i valori passati devono essere convertiti
+ * (es: Minuti == 60 => Ore++), 1 altrimenti
  */
 int SetTimerReady(Timer T, int Ore, int Minuti, int Secondi)
 {
@@ -224,7 +223,7 @@ static void _INTERNAL_StartTimer(Timer T)
         // Timer finito
         if (T->Ore == 0 && T->Minuti == 0 && T->Secondi == 0) {
             T->stato = CONCLUSO;
-            DoMiSolDo();
+            ShowTimerStatus(T);
         }
     }
 }
@@ -233,6 +232,10 @@ static void _INTERNAL_StartTimer(Timer T)
  * @brief Fai partire il timer
  *
  * @param T Timer
+ *
+ * @returns -1 in caso di errore (timer nullo, timer ancora attivo, stato del timer invalido), 0 se il timer non è
+ * stato ancora impostato, 1 se il timer si è concluso, 2 se il timer è in pausa, 3 se il timer è scaduto e non è ancora
+ * stato impostato
  */
 int StartTimer(Timer T)
 {
@@ -257,14 +260,20 @@ int StartTimer(Timer T)
     case PAUSA:
         T->stato = ATTIVO;
         _INTERNAL_StartTimer(T);
-        returnValue = 1;
+
+        if (T->stato == CONCLUSO) {
+            returnValue = 1;
+        } else if (T->stato == PAUSA) {
+            returnValue = 2;
+        }
+
         break;
 
     case CONCLUSO:
         Textcolor(COL_YELLOW);
         fprintf(stderr, "StartTimer() warning: Timer scaduto. Impostalo prima di avviarlo\n");
         Textcolor(COL_NORMAL);
-        returnValue = 2;
+        returnValue = 3;
         break;
 
     case ATTIVO: // Impossibile, ma ok
