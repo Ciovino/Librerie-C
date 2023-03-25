@@ -9,7 +9,6 @@
 
 ## Librerie in sviluppo
 - **Screen**: aggiungere un'esempio;
-- **Timer**: aggiungere un'esempio.
 
 ## Nuove idee/proposte
 1. Scrivere degli esempi.
