@@ -1,16 +1,15 @@
+#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <time.h>
 
-#include "Timer.h"
-#include "Supporto/Screen.h"
 #include "Supporto/Colori.h"
+#include "Supporto/Screen.h"
+#include "Timer.h"
 
 #define DELAY 1000
 
-typedef enum
-{
+typedef enum {
     DISATTIVO,
     PRONTO,
     ATTIVO,
@@ -18,8 +17,7 @@ typedef enum
     CONCLUSO,
 } STATO_TIMER;
 
-struct timer
-{
+struct timer {
     int Ore;
     int Minuti;
     int Secondi;
@@ -40,14 +38,11 @@ Timer NewTimer()
 
     t = malloc(sizeof(*t));
 
-    if (t == NULL)
-    {
+    if (t == NULL) {
         Textcolor(COL_RED);
-        fprintf(stderr, "NewTimer() error: Out of memory\n");
+        fprintf(stderr, "NewTimer() errore: Impossibile allocare memoria\n");
         Textcolor(COL_NORMAL);
-    }
-    else
-    {
+    } else {
         t->Ore = 0;
         t->Minuti = 0;
         t->Secondi = 0;
@@ -66,34 +61,34 @@ Timer NewTimer()
  * @param Ore
  * @param Minuti
  * @param Secondi
- * 
- * @return 0 se il Timer è Null, -1 se i valori passati sono negativi, 
- *         2 se i valori passati devono essere convertiti (es: Minuti == 60 => Ore++), 1 altrimenti
+ *
+ * @return 0 se il Timer è Null, -1 se i valori passati sono negativi,
+ *         2 se i valori passati devono essere convertiti (es: Minuti == 60 =>
+ *         Ore++), 1 altrimenti
  */
 int SetTimerReady(Timer T, int Ore, int Minuti, int Secondi)
 {
-    if (T == NULL)
-    {
+    // Timer nullo
+    if (T == NULL) {
         Textcolor(COL_RED);
-        fprintf(stderr, "SetTimer() error: Timer is NULL\n");
+        fprintf(stderr, "SetTimer() errore: Timer è nullo\n");
         Textcolor(COL_NORMAL);
         return 0;
     }
 
-    if (Ore < 0 || Minuti < 0 || Secondi < 0)
-    {
+    // Parametri negativi
+    if (Ore < 0 || Minuti < 0 || Secondi < 0) {
         Textcolor(COL_RED);
-        fprintf(stderr, "SetTimer() error: Params are negative\n");
+        fprintf(stderr, "SetTimer() errore: I parametri inseriti sono negativi\n");
         Textcolor(COL_NORMAL);
         return -1;
     }
 
-    // Check for conversion
+    // Controlla se i parametri devono essere convertiti
     int returnValue = 1;
 
     // Secondi
-    while (Secondi >= 60)
-    {
+    while (Secondi >= 60) {
         returnValue = 2;
 
         Minuti++;
@@ -101,8 +96,7 @@ int SetTimerReady(Timer T, int Ore, int Minuti, int Secondi)
     }
 
     // Minuti
-    while (Minuti >= 60)
-    {
+    while (Minuti >= 60) {
         returnValue = 2;
 
         Ore++;
@@ -124,16 +118,14 @@ int SetTimerReady(Timer T, int Ore, int Minuti, int Secondi)
  */
 void ShowTimerStatus(Timer T)
 {
-    if (T == NULL)
-    {
+    if (T == NULL) {
         Textcolor(COL_RED);
-        fprintf(stderr, "ShowTimerStatus() error: Timer is NULL\n");
+        fprintf(stderr, "ShowTimerStatus() errore: Timer è nullo\n");
         Textcolor(COL_NORMAL);
         return;
     }
 
-    switch (T->stato)
-    {
+    switch (T->stato) {
     case DISATTIVO:
         // Valore Timer
         printf("%d:%02d:%02d ", T->Ore, T->Minuti, T->Secondi);
@@ -181,7 +173,7 @@ void ShowTimerStatus(Timer T)
 
     default:
         Textcolor(COL_RED);
-        fprintf(stderr, "ShowTimerStatus() error: Invalid Timer state\n");
+        fprintf(stderr, "ShowTimerStatus() errore: Stato del Timer non valido\n");
         Textcolor(COL_NORMAL);
         break;
     }
@@ -189,10 +181,8 @@ void ShowTimerStatus(Timer T)
 
 static void DecrementTimer(Timer T)
 {
-    if (T->Secondi == 0)
-    {
-        if (T->Minuti == 0)
-        {
+    if (T->Secondi == 0) {
+        if (T->Minuti == 0) {
             T->Ore--;
             T->Minuti = 60;
         }
@@ -208,10 +198,8 @@ static void _INTERNAL_StartTimer(Timer T)
     clock_t start = clock(), offset = T->millisecond;
 
     ShowTimerStatus(T);
-    while (T->stato == ATTIVO)
-    {
-        if (secondPassed)
-        {
+    while (T->stato == ATTIVO) {
+        if (secondPassed) {
             secondPassed = 0;
             DecrementTimer(T);
 
@@ -219,18 +207,14 @@ static void _INTERNAL_StartTimer(Timer T)
             offset = T->millisecond = 0;
 
             ShowTimerStatus(T);
-        }
-        else
-        {
+        } else {
             T->millisecond = clock() - start + offset;
 
-            if (T->millisecond >= DELAY)
-                secondPassed = 1;
+            if (T->millisecond >= DELAY) secondPassed = 1;
         }
 
         // Timer in pausa
-        if (kbhit())
-        {
+        if (kbhit()) {
             if (getch() == 32) // Spacebar pressed
             {
                 T->stato = PAUSA;
@@ -238,8 +222,7 @@ static void _INTERNAL_StartTimer(Timer T)
         }
 
         // Timer finito
-        if (T->Ore == 0 && T->Minuti == 0 && T->Secondi == 0)
-        {
+        if (T->Ore == 0 && T->Minuti == 0 && T->Secondi == 0) {
             T->stato = CONCLUSO;
             DoMiSolDo();
         }
@@ -253,47 +236,47 @@ static void _INTERNAL_StartTimer(Timer T)
  */
 int StartTimer(Timer T)
 {
-    if (T == NULL)
-    {
+    if (T == NULL) {
         Textcolor(COL_RED);
-        fprintf(stderr, "StartTimer() error: Timer is NULL\n");
+        fprintf(stderr, "StartTimer() errore: Timer è nullo\n");
         Textcolor(COL_NORMAL);
         return -1;
     }
 
     int returnValue = 0;
 
-    switch (T->stato)
-    {
+    switch (T->stato) {
     case DISATTIVO:
         Textcolor(COL_YELLOW);
-        fprintf(stderr, "StartTimer() warning: Timer not set\n");
+        fprintf(stderr, "StartTimer() warning: Timer non impostato\n");
         Textcolor(COL_NORMAL);
         returnValue = 0;
         break;
-    case PRONTO:
-        T->millisecond = DELAY;
+
+    case PRONTO: T->millisecond = DELAY;
     case PAUSA:
         T->stato = ATTIVO;
         _INTERNAL_StartTimer(T);
         returnValue = 1;
         break;
+
     case CONCLUSO:
         Textcolor(COL_YELLOW);
-        fprintf(stderr, "StartTimer() warning: Timer already finished. Set it again\n");
+        fprintf(stderr, "StartTimer() warning: Timer scaduto. Impostalo prima di avviarlo\n");
         Textcolor(COL_NORMAL);
         returnValue = 2;
         break;
+
     case ATTIVO: // Impossibile, ma ok
         Textcolor(COL_RED);
-        fprintf(stderr, "StartTimer() error: Timer is still active\n");
+        fprintf(stderr, "StartTimer() errore: Timer è già attivo\n");
         Textcolor(COL_NORMAL);
         returnValue = -1;
         break;
 
     default:
         Textcolor(COL_RED);
-        fprintf(stderr, "StartTimer() error: Invalid Timer state\n");
+        fprintf(stderr, "StartTimer() errore: Stato del Timer non valido\n");
         Textcolor(COL_NORMAL);
         returnValue = -1;
         break;
@@ -309,8 +292,7 @@ int StartTimer(Timer T)
  */
 void FreeTimer(Timer T)
 {
-    if (T != NULL)
-        free(T);
+    if (T != NULL) free(T);
 }
 
 /**
@@ -322,6 +304,5 @@ void delay(int MilliSeconds)
 {
     clock_t time = clock() + MilliSeconds;
 
-    while (time > clock())
-        ;
+    while (time > clock()) {}
 }

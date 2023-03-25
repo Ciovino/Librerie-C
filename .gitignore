@@ -1,2 +1,3 @@
 *.exe
 Supporto/
+.clang-format
