@@ -8,7 +8,7 @@
 - *Timer*: Crea e usa vari timer.
 
 ## Librerie in sviluppo
-- **Screen**: aggiungere un'esempio;
+Al momento mi sono preso una vacanze =).
 
 ## Nuove idee/proposte
-1. Scrivere degli esempi.
+0. Sono a corto di idee.
